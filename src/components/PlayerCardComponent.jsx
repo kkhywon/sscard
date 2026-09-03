@@ -232,18 +232,19 @@ function PlayerCard({ player }) {
       >
         {/* 앞뒷면 전체를 회전시키는 영역 */}
         <div
-          className={`
-            relative
-            transition-transform
-            duration-700
-            [transform-style:preserve-3d]
-            ${
-              isFlipped
-                ? "[transform:rotateY(180deg)]"
-                : "[transform:rotateY(0deg)]"
-            }
-          `}
-        >
+  className={`
+    relative
+    transition-transform
+    duration-700
+    [transform-style:preserve-3d]
+    [will-change:transform]
+    ${
+      isFlipped
+        ? "[transform:rotateY(180deg)]"
+        : "[transform:rotateY(0deg)]"
+    }
+  `}
+>
           {/* 카드 앞면 */}
           <div className="relative overflow-hidden rounded-[3%] [backface-visibility:hidden]">
             <img
@@ -254,7 +255,8 @@ function PlayerCard({ player }) {
                 block
                 h-auto
                 w-auto
-                max-h-[calc(100dvh-48px)]
+                max-h-[calc(100dvh-112px)]
+                sm:max-h-[calc(100dvh-48px)]
                 max-w-[calc(100vw-48px)]
                 object-contain
                 drop-shadow-2xl

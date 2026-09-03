@@ -37,9 +37,9 @@ function App() {
           ← 컬렉션
         </button>
 
-        <div className="h-full w-full scale-[0.9]">
-          <PlayerCard player={selectedPlayer} />
-        </div>
+        <div className="h-full w-full">
+  <PlayerCard player={selectedPlayer} />
+</div>
       </main>
     );
   }
