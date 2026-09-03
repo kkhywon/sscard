@@ -36,7 +36,7 @@ const players = [
 
     career: "창신초(부산진구리틀) - 원동중 - 포항제철고",
     signingBonus: "7000만원",
-    salary: "20000만원",
+    salary: "2억원",
     draft: "17 삼성 2차 4라운드 39순위",
     joined: "2017",
 
