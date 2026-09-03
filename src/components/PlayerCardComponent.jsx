@@ -7,17 +7,29 @@ function InfoItem({ label, value }) {
         border
         border-white/10
         bg-white/5
-        px-3
-        py-1.5
+        px-[min(2.8cqw,12px)]
+        py-[min(1.8cqw,8px)]
         backdrop-blur-sm
-        sm:py-2
       "
     >
-      <p className="text-[clamp(9px,1.35vw,12px)] tracking-[0.16em] text-cyan-200/70">
+      <p
+        className="
+          text-[min(2.8cqw,12px)]
+          tracking-[0.16em]
+          text-cyan-200/70
+        "
+      >
         {label}
       </p>
 
-      <p className="mt-1 text-[clamp(11px,1.8vw,17px)] font-semibold text-white">
+      <p
+        className="
+          mt-[min(0.8cqw,4px)]
+          text-[min(4cqw,17px)]
+          font-semibold
+          text-white
+        "
+      >
         {value}
       </p>
     </div>
@@ -50,246 +62,317 @@ function PlayerCardBack({ player }) {
         [transform:rotateY(180deg)_translateZ(0)]
       "
     >
-      {/* 왼쪽 위 배경 빛 */}
+      {/* 
+        카드 자체를 기준으로 반응형 계산
+        cqw = 카드 너비 기준
+      */}
       <div
         className="
           absolute
-          -left-1/4
-          -top-1/4
-          h-1/2
-          w-1/2
-          rounded-full
-          bg-cyan-300/25
-          blur-3xl
-        "
-      />
-
-      {/* 오른쪽 아래 배경 빛 */}
-      <div
-        className="
-          absolute
-          -bottom-1/4
-          -right-1/4
-          h-1/2
-          w-1/2
-          rounded-full
-          bg-fuchsia-500/20
-          blur-3xl
-        "
-      />
-
-      {/* 안쪽 테두리 */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-[2.5%]
-          border-2
-          border-cyan-100/20
-        "
-      />
-
-      {/* 배경 등번호 */}
-      <p
-        className="
-          pointer-events-none
-          absolute
-          -right-[4%]
-          top-[4%]
-          text-[clamp(110px,28vw,250px)]
-          font-black
-          leading-none
-          text-white/5
-        "
-      >
-        {player.number}
-      </p>
-
-      {/* 선수 정보 전체 */}
-      <div
-        className="
-          relative
-          z-10
-          flex
+          inset-0
           h-full
           w-full
-          flex-col
-          p-[clamp(14px,3.5vw,40px)]
+          [container-type:inline-size]
         "
       >
-        {/* 상단 */}
-        <header
-          className="
-            flex
-            items-center
-            justify-between
-            border-b
-            border-cyan-100/25
-            pb-2
-            sm:pb-3
-          "
-        >
-          <p className="text-[clamp(8px,1.3vw,12px)] font-bold tracking-[0.2em] text-cyan-100">
-            {player.team}
-          </p>
-
-          <p className="text-[clamp(10px,1.5vw,14px)] font-bold text-fuchsia-300">
-            No.{player.number}
-          </p>
-        </header>
-
-        {/* 이름 */}
-        <section className="mt-[clamp(8px,2vw,22px)]">
-          <p className="text-[clamp(8px,1.2vw,11px)] tracking-[0.28em] text-cyan-300">
-            PLAYER PROFILE
-          </p>
-
-          <h2
-            className="
-              mt-1
-              text-[clamp(28px,5vw,48px)]
-              font-black
-              tracking-[0.08em]
-            "
-          >
-            {player.name}
-          </h2>
-
-          <p className="text-[clamp(9px,1.5vw,14px)] tracking-[0.12em] text-white/60">
-            {player.englishName}
-          </p>
-        </section>
-
-        {/* 기본 정보 */}
+        {/* 왼쪽 위 배경 빛 */}
         <div
           className="
-            mt-[clamp(7px,2vw,20px)]
-            grid
-            grid-cols-2
-            gap-2
+            absolute
+            -left-1/4
+            -top-1/4
+            h-1/2
+            w-1/2
+            rounded-full
+            bg-cyan-300/25
+            blur-3xl
           "
-        >
-          <InfoItem
-            label="BIRTH"
-            value={player.birthDate}
-          />
+        />
 
-          <InfoItem
-            label="POSITION"
-            value={`${player.position} · ${player.batsThrows}`}
-          />
-
-          <InfoItem
-            label="HEIGHT"
-            value={player.height}
-          />
-
-          <InfoItem
-            label="WEIGHT"
-            value={player.weight}
-          />
-        </div>
-
-        {/* 경력 */}
+        {/* 오른쪽 아래 배경 빛 */}
         <div
           className="
-            mt-1.5
-            border
-            border-white/10
-            bg-white/5
-            px-3
-            py-2
-            sm:mt-2
-            sm:py-3
+            absolute
+            -bottom-1/4
+            -right-1/4
+            h-1/2
+            w-1/2
+            rounded-full
+            bg-fuchsia-500/20
+            blur-3xl
           "
-        >
-          <p className="text-[clamp(9px,1.35vw,12px)] tracking-[0.16em] text-white">
-            CAREER
-          </p>
+        />
 
-          <p
-            className="
-              mt-1
-              text-[clamp(11px,1.8vw,17px)]
-              font-semibold
-              leading-relaxed
-              text-white
-            "
-          >
-            {player.career}
-          </p>
-        </div>
-
-        {/* 계약금 / 연봉 */}
+        {/* 안쪽 테두리 */}
         <div
           className="
-            mt-1.5
-            grid
-            grid-cols-2
-            gap-2
-            sm:mt-2
-          "
-        >
-          <InfoItem
-            label="SIGNING BONUS"
-            value={player.signingBonus}
-          />
-
-          <InfoItem
-            label="SALARY"
-            value={player.salary}
-          />
-        </div>
-
-        {/* 지명순위 */}
-        <div
-          className="
-            mt-1.5
-            border
-            border-white/10
-            bg-white/5
-            px-3
-            py-2
-            sm:mt-2
-            sm:py-3
-          "
-        >
-          <p className="text-[clamp(9px,1.35vw,12px)] tracking-[0.16em] text-cyan-200/70">
-            DRAFT
-          </p>
-
-          <p className="mt-1 text-[clamp(11px,1.8vw,17px)] font-semibold text-white">
-            {player.draft}
-          </p>
-        </div>
-
-        {/* 하단 */}
-        <footer
-          className="
-            mt-auto
-            flex
-            items-end
-            justify-between
-            border-t
+            pointer-events-none
+            absolute
+            inset-[2.5%]
+            border-2
             border-cyan-100/20
-            pt-1.5
-            sm:pt-3
+          "
+        />
+
+        {/* 배경 등번호 */}
+        <p
+          className="
+            pointer-events-none
+            absolute
+            -right-[4%]
+            top-[4%]
+            text-[min(35cqw,250px)]
+            font-black
+            leading-none
+            text-white/5
           "
         >
-          <div>
-            <p className="text-[clamp(8px,1.1vw,10px)] tracking-[0.14em] text-white/40">
-              JOINED
+          {player.number}
+        </p>
+
+        {/* 선수 정보 전체 */}
+        <div
+          className="
+            relative
+            z-10
+            flex
+            h-full
+            w-full
+            flex-col
+            p-[min(6cqw,40px)]
+          "
+        >
+          {/* 상단 */}
+          <header
+            className="
+              flex
+              items-center
+              justify-between
+              border-b
+              border-cyan-100/25
+              pb-[min(2cqw,12px)]
+            "
+          >
+            <p
+              className="
+                text-[min(2.8cqw,12px)]
+                font-bold
+                tracking-[0.2em]
+                text-cyan-100
+              "
+            >
+              {player.team}
             </p>
 
-            <p className="text-[clamp(10px,1.5vw,14px)] font-semibold text-white">
-              {player.joined}
+            <p
+              className="
+                text-[min(3.3cqw,14px)]
+                font-bold
+                text-fuchsia-300
+              "
+            >
+              No.{player.number}
+            </p>
+          </header>
+
+          {/* 선수 이름 */}
+          <section className="mt-[min(3.5cqw,22px)]">
+            <p
+              className="
+                text-[min(2.6cqw,11px)]
+                tracking-[0.28em]
+                text-cyan-300
+              "
+            >
+              PLAYER PROFILE
+            </p>
+
+            <h2
+              className="
+                mt-[min(1cqw,4px)]
+                text-[min(11cqw,48px)]
+                font-black
+                tracking-[0.08em]
+                leading-none
+              "
+            >
+              {player.name}
+            </h2>
+
+            <p
+              className="
+                mt-[min(1.5cqw,6px)]
+                text-[min(3.2cqw,14px)]
+                tracking-[0.12em]
+                text-white/60
+              "
+            >
+              {player.englishName}
+            </p>
+          </section>
+
+          {/* 기본 정보 */}
+          <div
+            className="
+              mt-[min(3cqw,20px)]
+              grid
+              grid-cols-2
+              gap-[min(1.8cqw,8px)]
+            "
+          >
+            <InfoItem
+              label="BIRTH"
+              value={player.birthDate}
+            />
+
+            <InfoItem
+              label="POSITION"
+              value={`${player.position} · ${player.batsThrows}`}
+            />
+
+            <InfoItem
+              label="HEIGHT"
+              value={player.height}
+            />
+
+            <InfoItem
+              label="WEIGHT"
+              value={player.weight}
+            />
+          </div>
+
+          {/* CAREER */}
+          <div
+            className="
+              mt-[min(1.8cqw,8px)]
+              border
+              border-white/10
+              bg-white/5
+              px-[min(2.8cqw,12px)]
+              py-[min(2.3cqw,12px)]
+            "
+          >
+            <p
+              className="
+                text-[min(2.8cqw,12px)]
+                tracking-[0.16em]
+                text-white
+              "
+            >
+              CAREER
+            </p>
+
+            <p
+              className="
+                mt-[min(0.8cqw,4px)]
+                text-[min(4cqw,17px)]
+                font-semibold
+                leading-relaxed
+                text-white
+              "
+            >
+              {player.career}
             </p>
           </div>
 
-          <p className="text-[clamp(8px,1.1vw,10px)] text-white/35">
-            더블클릭 · 두 번 터치
-          </p>
-        </footer>
+          {/* 계약금 / 연봉 */}
+          <div
+            className="
+              mt-[min(1.8cqw,8px)]
+              grid
+              grid-cols-2
+              gap-[min(1.8cqw,8px)]
+            "
+          >
+            <InfoItem
+              label="SIGNING BONUS"
+              value={player.signingBonus}
+            />
+
+            <InfoItem
+              label="SALARY"
+              value={player.salary}
+            />
+          </div>
+
+          {/* DRAFT */}
+          <div
+            className="
+              mt-[min(1.8cqw,8px)]
+              border
+              border-white/10
+              bg-white/5
+              px-[min(2.8cqw,12px)]
+              py-[min(2.3cqw,12px)]
+            "
+          >
+            <p
+              className="
+                text-[min(2.8cqw,12px)]
+                tracking-[0.16em]
+                text-cyan-200/70
+              "
+            >
+              DRAFT
+            </p>
+
+            <p
+              className="
+                mt-[min(0.8cqw,4px)]
+                text-[min(4cqw,17px)]
+                font-semibold
+                text-white
+              "
+            >
+              {player.draft}
+            </p>
+          </div>
+
+          {/* 하단 */}
+         <footer
+  className="
+    mt-auto
+    mb-[min(2cqw,30px)]
+    flex
+    items-end
+    justify-between
+    border-t
+    border-cyan-100/20
+    pt-[min(2cqw,12px)]
+  "
+>
+            <div>
+              <p
+                className="
+                  text-[min(2.3cqw,6px)]
+                  tracking-[0.14em]
+                  text-white/40
+                "
+              >
+                JOINED
+              </p>
+
+              <p
+                className="
+                  text-[min(3.2cqw,14px)]
+                  font-semibold
+                  text-white
+                "
+              >
+                {player.joined}
+              </p>
+            </div>
+
+            <p
+              className="
+                text-[min(2.3cqw,10px)]
+                text-white/35
+              "
+            >
+              더블클릭 · 두 번 터치
+            </p>
+          </footer>
+        </div>
       </div>
     </div>
   );
@@ -307,7 +390,7 @@ function PlayerCard({ player }) {
   };
 
   // PC
-  // 더블클릭하면 카드 뒤집기
+  // 더블클릭 → 카드 뒤집기
   const handleDoubleClick = () => {
     const canHover = window.matchMedia("(hover: hover)").matches;
 
@@ -317,15 +400,12 @@ function PlayerCard({ player }) {
   };
 
   // 모바일
-  // 한 번 터치 = 홀로그램
-  // 두 번 터치 = 카드 뒤집기
+  // 한 번 터치 → 홀로그램
+  // 두 번 터치 → 카드 뒤집기
   const handleTouchEnd = () => {
     const now = Date.now();
+    const timeSinceLastTap = now - lastTapTime.current;
 
-    const timeSinceLastTap =
-      now - lastTapTime.current;
-
-    // 300ms 안에 두 번째 터치
     if (
       lastTapTime.current !== 0 &&
       timeSinceLastTap < 300
@@ -333,7 +413,6 @@ function PlayerCard({ player }) {
       lastTapTime.current = 0;
 
       clearTimeout(shineTimer.current);
-
       setIsShining(false);
 
       toggleCard();
@@ -341,10 +420,8 @@ function PlayerCard({ player }) {
       return;
     }
 
-    // 첫 번째 터치 시간 저장
     lastTapTime.current = now;
 
-    // 홀로그램 실행
     setIsShining(true);
 
     clearTimeout(shineTimer.current);
@@ -382,7 +459,6 @@ function PlayerCard({ player }) {
           group
           relative
           inline-block
-
           cursor-pointer
           select-none
           touch-manipulation
@@ -397,7 +473,7 @@ function PlayerCard({ player }) {
           hover:scale-[1.03]
         "
       >
-        {/* 앞면 + 뒷면 회전 영역 */}
+        {/* 앞면과 뒷면을 같이 회전시키는 부분 */}
         <div
           className={`
             relative
@@ -416,7 +492,7 @@ function PlayerCard({ player }) {
             }
           `}
         >
-          {/* 카드 앞면 */}
+          {/* 앞면 */}
           <div
             className="
               relative
@@ -425,7 +501,6 @@ function PlayerCard({ player }) {
 
               [backface-visibility:hidden]
               [-webkit-backface-visibility:hidden]
-
               [transform:translateZ(0)]
             "
           >
@@ -442,7 +517,6 @@ function PlayerCard({ player }) {
                 max-w-[calc(100vw-48px)]
 
                 object-contain
-
                 drop-shadow-2xl
 
                 sm:max-h-[calc(100dvh-48px)]
@@ -453,7 +527,6 @@ function PlayerCard({ player }) {
             <div
               className={`
                 pointer-events-none
-
                 absolute
                 inset-0
 
@@ -479,7 +552,7 @@ function PlayerCard({ player }) {
             />
           </div>
 
-          {/* 카드 뒷면 */}
+          {/* 뒷면 */}
           <PlayerCardBack player={player} />
         </div>
       </div>
