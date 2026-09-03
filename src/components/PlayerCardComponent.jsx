@@ -20,6 +20,8 @@ function PlayerCardBack({ player }) {
       className="
         absolute
         inset-0
+        h-full
+        w-full
         overflow-hidden
         rounded-[3%]
         border-2
@@ -30,7 +32,8 @@ function PlayerCardBack({ player }) {
         to-slate-950
         text-white
         [backface-visibility:hidden]
-        [transform:rotateY(180deg)]
+        [-webkit-backface-visibility:hidden]
+        [transform:rotateY(180deg)_translateZ(0)]
       "
     >
       {/* 왼쪽 위 배경 빛 */}
@@ -59,7 +62,7 @@ function PlayerCardBack({ player }) {
       </p>
 
       {/* 선수 정보 */}
-      <div className="relative z-10 flex h-full flex-col p-[clamp(18px,4vw,40px)]">
+      <div className="relative z-10 flex h-full w-full flex-col p-[clamp(18px,4vw,40px)]">
         <header className="flex items-center justify-between border-b border-cyan-100/25 pb-3">
           <p className="text-[clamp(8px,1.3vw,12px)] font-bold tracking-[0.2em] text-cyan-100">
             {player.team}
@@ -84,6 +87,7 @@ function PlayerCardBack({ player }) {
           </p>
         </section>
 
+        {/* 기본 정보 */}
         <div className="mt-[clamp(10px,2vw,20px)] grid grid-cols-2 gap-2">
           <InfoItem label="BIRTH" value={player.birthDate} />
 
@@ -93,12 +97,13 @@ function PlayerCardBack({ player }) {
           />
 
           <InfoItem label="HEIGHT" value={player.height} />
+
           <InfoItem label="WEIGHT" value={player.weight} />
         </div>
 
         {/* 경력 */}
         <div className="mt-2 border border-white/10 bg-white/5 px-3 py-3">
-          <p className="text-[clamp(9px,1.35vw,12px)] tracking-[0.16em] text-cyan-200/70">
+          <p className="text-[clamp(9px,1.35vw,12px)] tracking-[0.16em] text-white">
             CAREER
           </p>
 
@@ -107,10 +112,17 @@ function PlayerCardBack({ player }) {
           </p>
         </div>
 
-        {/* 계약금과 연봉 */}
+        {/* 계약금 / 연봉 */}
         <div className="mt-2 grid grid-cols-2 gap-2">
-          <InfoItem label="SIGNING BONUS" value={player.signingBonus} />
-          <InfoItem label="SALARY" value={player.salary} />
+          <InfoItem
+            label="SIGNING BONUS"
+            value={player.signingBonus}
+          />
+
+          <InfoItem
+            label="SALARY"
+            value={player.salary}
+          />
         </div>
 
         {/* 지명순위 */}
@@ -124,6 +136,7 @@ function PlayerCardBack({ player }) {
           </p>
         </div>
 
+        {/* 하단 */}
         <footer className="mt-auto flex items-end justify-between border-t border-cyan-100/20 pt-3">
           <div>
             <p className="text-[clamp(8px,1.1vw,10px)] tracking-[0.14em] text-white/40">
@@ -136,7 +149,7 @@ function PlayerCardBack({ player }) {
           </div>
 
           <p className="text-[clamp(8px,1.1vw,10px)] text-white/35">
-            더블클릭 · 길게 누르기
+            더블클릭 · 두 번 터치
           </p>
         </footer>
       </div>
@@ -148,15 +161,14 @@ function PlayerCard({ player }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isShining, setIsShining] = useState(false);
 
-  const pressTimer = useRef(null);
   const shineTimer = useRef(null);
-  const longPressActivated = useRef(false);
+  const lastTapTime = useRef(0);
 
   const toggleCard = () => {
     setIsFlipped((current) => !current);
   };
 
-  // PC에서 더블클릭하면 뒤집기
+  // PC: 더블클릭하면 카드 뒤집기
   const handleDoubleClick = () => {
     const canHover = window.matchMedia("(hover: hover)").matches;
 
@@ -165,28 +177,32 @@ function PlayerCard({ player }) {
     }
   };
 
-  // 모바일에서 누르기 시작
-  const handleTouchStart = () => {
-    longPressActivated.current = false;
-
-    clearTimeout(pressTimer.current);
-
-    pressTimer.current = setTimeout(() => {
-      longPressActivated.current = true;
-      toggleCard();
-    }, 600);
-  };
-
-  // 모바일에서 손가락을 뗐을 때
+  // 모바일:
+  // 한 번 터치 = 홀로그램
+  // 두 번 터치 = 카드 뒤집기
   const handleTouchEnd = () => {
-    clearTimeout(pressTimer.current);
+    const now = Date.now();
+    const timeSinceLastTap = now - lastTapTime.current;
 
-    // 길게 눌렀다면 홀로그램을 실행하지 않음
-    if (longPressActivated.current) {
+    // 300ms 안에 두 번째 터치가 들어오면 뒤집기
+    if (
+      lastTapTime.current !== 0 &&
+      timeSinceLastTap < 300
+    ) {
+      lastTapTime.current = 0;
+
+      clearTimeout(shineTimer.current);
+      setIsShining(false);
+
+      toggleCard();
+
       return;
     }
 
-    // 짧게 눌렀다면 홀로그램 실행
+    // 첫 번째 터치 시간 저장
+    lastTapTime.current = now;
+
+    // 한 번 터치 홀로그램
     setIsShining(true);
 
     clearTimeout(shineTimer.current);
@@ -196,10 +212,6 @@ function PlayerCard({ player }) {
     }, 700);
   };
 
-  const handleTouchCancel = () => {
-    clearTimeout(pressTimer.current);
-  };
-
   return (
     <article className="flex h-full w-full items-center justify-center">
       <div
@@ -207,9 +219,7 @@ function PlayerCard({ player }) {
         tabIndex={0}
         aria-label={`${player.name} 선수 카드`}
         onDoubleClick={handleDoubleClick}
-        onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchCancel}
         onContextMenu={(event) => event.preventDefault()}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
@@ -222,6 +232,7 @@ function PlayerCard({ player }) {
           inline-block
           cursor-pointer
           select-none
+          touch-manipulation
           [perspective:1200px]
           transition-transform
           duration-300
@@ -232,21 +243,31 @@ function PlayerCard({ player }) {
       >
         {/* 앞뒷면 전체를 회전시키는 영역 */}
         <div
-  className={`
-    relative
-    transition-transform
-    duration-700
-    [transform-style:preserve-3d]
-    [will-change:transform]
-    ${
-      isFlipped
-        ? "[transform:rotateY(180deg)]"
-        : "[transform:rotateY(0deg)]"
-    }
-  `}
->
+          className={`
+            relative
+            origin-center
+            transition-transform
+            duration-700
+            [transform-style:preserve-3d]
+            [will-change:transform]
+            ${
+              isFlipped
+                ? "[transform:rotateY(180deg)_translateZ(0)]"
+                : "[transform:rotateY(0deg)_translateZ(0)]"
+            }
+          `}
+        >
           {/* 카드 앞면 */}
-          <div className="relative overflow-hidden rounded-[3%] [backface-visibility:hidden]">
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-[3%]
+              [backface-visibility:hidden]
+              [-webkit-backface-visibility:hidden]
+              [transform:translateZ(0)]
+            "
+          >
             <img
               src={player.image}
               alt={`${player.name} 선수 카드`}
@@ -256,10 +277,10 @@ function PlayerCard({ player }) {
                 h-auto
                 w-auto
                 max-h-[calc(100dvh-112px)]
-                sm:max-h-[calc(100dvh-48px)]
                 max-w-[calc(100vw-48px)]
                 object-contain
                 drop-shadow-2xl
+                sm:max-h-[calc(100dvh-48px)]
               "
             />
 
