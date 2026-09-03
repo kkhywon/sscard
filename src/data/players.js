@@ -1,0 +1,20 @@
+export const players = [
+  {
+    id: 1,
+    name: "김지찬",
+    englishName: "KIM JI CHAN",
+    number: 58,
+    birthDate: "2001.03.08",
+    position: "외야수",
+    batsThrows: "우투좌타",
+    height: "163cm",
+    weight: "64kg",
+    career: "백사초(이천시리틀) · 모가중 · 라온고",
+    signingBonus: "1억 1,000만 원",
+    salary: "2억 3,000만 원",
+    draft: "2020 삼성 2차 2라운드 15순위",
+    joined: "2020 삼성",
+    team: "SAMSUNG LIONS",
+    image: "/images/kim-jichan-card.png",
+  },
+];
