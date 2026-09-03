@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PlayerCard from "./components/PlayerCardComponent";
-import { players } from "./data/players";
+import players  from "./data/players";
 
 function App() {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
