@@ -79,22 +79,24 @@ function PlayerCard({ player }) {
           }
         }}
         className="
-          group
-          relative
-          w-full
-          cursor-pointer
-          select-none
-          touch-manipulation
+  group
+  relative
+  mx-auto
+  w-fit
+  max-w-full
+  cursor-pointer
+  select-none
+  touch-manipulation
 
-          [perspective:1200px]
+  [perspective:1200px]
 
-          transition-transform
-          duration-300
-          ease-out
+  transition-transform
+  duration-300
+  ease-out
 
-          hover:-rotate-1
-          hover:scale-[1.03]
-        "
+  hover:-rotate-1
+  hover:scale-[1.03]
+"
       >
         {/* 앞면과 뒷면을 같이 회전시키는 부분 */}
         <div
